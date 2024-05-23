@@ -1,53 +1,51 @@
-// Mapping of keys to sound filenames
-const keySoundMap = {
-	65: '0.wav',// A
-	83: '1.wav',// S
-	68: '2.wav',// D
-	70: '3.wav',// F
-	71: '4.wav',// G
-	72: '5.wav',// H
-	74: '6.wav',// J
-	75: '7.wav',// K
-	76: '8.wav',// L
-  };
-  
-  // Function to load sounds into an array
-  function loadSounds(basePath, keySoundMap) {
-	const sounds = {};
-	for (const [key, soundFile] of Object.entries(keySoundMap)) {
-	  sounds[key] = new Audio(`${basePath}/${soundFile}`);
-	}
-	return sounds;
-  }
-  
-  // Load sounds from the 'sounds' folder
-  const sounds = loadSounds('Sounds', keySoundMap);
-  
-  // Function to play sound and handle visual feedback
-  function playSound(keyCode) {
-	const sound = Sounds[keyCode];
-	if (sound) {
-	  sound.currentTime = 0; // Rewind to start
-	  sound.play();
-  
-	  // Add visual feedback
-	  const button = document.getElementById(`btn-${keyCode}`);
-	  if (button) {
-		button.classList.add('playing');
-		setTimeout(() => button.classList.remove('playing'), 100);
-	  }
-	}
-  }
-  
-  // Event listener for keydown
-  window.addEventListener('keydown', function(e) {
-	playSound(e.keyCode);
-  });
-  // Event listeners for mouse clicks
-document.querySelectorAll('.box').forEach(box => {
-	box.addEventListener('click', () => {
-	  const keyCode = box.getAttribute('data-key');
-	  playSound(Number(keyCode));
-	});
-  });
-  
+document.addEventListener('DOMContentLoaded', function() {
+    // Array to hold audio files
+    const sounds = [
+        new Audio('Sounds/0.wav'),
+        new Audio('Sounds/1.wav'),
+        new Audio('Sounds/2.wav'),
+        new Audio('Sounds/3.wav'),
+        new Audio('Sounds/4.wav'),
+        new Audio('Sounds/5.wav'),
+        new Audio('Sounds/6.wav'),
+        new Audio('Sounds/7.wav'),
+        new Audio('Sounds/8.mp3')
+    ];
+
+    // Key codes for corresponding sounds
+    const keyCodes = [65, 83, 68, 70, 71, 72, 74, 75, 76];
+
+    // Function to play sound and add 'playing' class
+    function playSound(e) {
+        const key = e.keyCode;
+        const index = keyCodes.indexOf(key);
+        if (index === -1) return;  // If key is not mapped, do nothing
+
+        const audio = sounds[index];
+        audio.currentTime = 0;  // Rewind to the start
+        audio.play();
+
+        const box = document.getElementById(`btn-${key}`);
+        box.classList.add('playing');
+        setTimeout(() => {
+            box.classList.remove('playing');
+        }, 100);
+    }
+
+    // Event listener for keydown
+    window.addEventListener('keydown', playSound);
+
+    // Event listener for click
+    document.querySelectorAll('.box').forEach((box, index) => {
+        box.addEventListener('click', () => {
+            const audio = sounds[index];
+            audio.currentTime = 0;  // Rewind to the start
+            audio.play();
+
+            box.classList.add('playing');
+            setTimeout(() => {
+                box.classList.remove('playing');
+            }, 100);
+        });
+    });
+});
