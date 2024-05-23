@@ -1,124 +1,53 @@
-//var key = document.getElementById("btn-a");
-
-var sounds = new Array();
- 
-
-for (var i = 0; i < 9; i++) {
-	
-	
-	sounds[i] = new Audio("Audio" + i + ".wav");
- 
-}
-
-
-// an event to get the key would pressed (e.keyCode) and use it in the next code
-
-window.addEventListener('keydown',function(e) {
-												  
-	var key = e.keycode;
-	
-	
-	//function include all the class changes
-	
-	function keyChange() {
-	 
-		document.getElementById("btn-" + key).classList.add("playing");
-	
-		function removeClass() {
-	
-		document.getElementById("btn-" + key).classList.remove("playing");
-	
-		}
-		
-		setTimeout(removeClass, 100);
-	 
-	 
-	 
- 		}
-	
-	
-	switch(key) {
-			
-		case 65:
-			
-			keyChange();
-	
-		sounds[0].play();
-		sounds[0].currentTime = 0;
-			
-			break;
-			
-		case 83: 
-			
-			keyChange();
-		
-		sounds[1].play();
-		sounds[1].currentTime = 0;
-			
-			break;
-			
-		case 68:
-			
-			keyChange();
-		
-		sounds[2].play();
-		sounds[2].currentTime = 0;
-			
-			break;
-			
-		case 70:
-			
-			keyChange();
-		
-		sounds[3].play();
-		sounds[3].currentTime = 0;
-			
-			break;
-			
-		case 71:
-			
-			keyChange();
-		
-		sounds[4].play();
-		sounds[4].currentTime = 0;
-			
-			break;
-			
-		case 72:
-			
-			keyChange();
-		
-		sounds[5].play();
-		sounds[5].currentTime = 0;
-			
-			break;
-			
-		case 74:
-			
-			keyChange();
-		
-		sounds[6].play();
-		sounds[6].currentTime = 0;
-			
-			break;
-			
-		case 75:
-			
-			keyChange();
-		
-		sounds[7].play();
-		sounds[7].currentTime = 0;
-			
-			break;
-			
-		case 76:
-			
-			keyChange();
-		
-		sounds[8].play();
-		sounds[8].currentTime = 0;
-			
-			break;
+// Mapping of keys to sound filenames
+const keySoundMap = {
+	65: '0.wav',// A
+	83: '1.wav',// S
+	68: '2.wav',// D
+	70: '3.wav',// F
+	71: '4.wav',// G
+	72: '5.wav',// H
+	74: '6.wav',// J
+	75: '7.wav',// K
+	76: '8.wav',// L
+  };
+  
+  // Function to load sounds into an array
+  function loadSounds(basePath, keySoundMap) {
+	const sounds = {};
+	for (const [key, soundFile] of Object.entries(keySoundMap)) {
+	  sounds[key] = new Audio(`${basePath}/${soundFile}`);
+	}
+	return sounds;
   }
+  
+  // Load sounds from the 'sounds' folder
+  const sounds = loadSounds('sounds', keySoundMap);
+  
+  // Function to play sound and handle visual feedback
+  function playSound(keyCode) {
+	const sound = sounds[keyCode];
+	if (sound) {
+	  sound.currentTime = 0; // Rewind to start
+	  sound.play();
+  
+	  // Add visual feedback
+	  const button = document.getElementById(`btn-${keyCode}`);
+	  if (button) {
+		button.classList.add('playing');
+		setTimeout(() => button.classList.remove('playing'), 100);
+	  }
+	}
+  }
+  
+  // Event listener for keydown
+  window.addEventListener('keydown', function(e) {
+	playSound(e.keyCode);
   });
-	
+  // Event listeners for mouse clicks
+document.querySelectorAll('.box').forEach(box => {
+	box.addEventListener('click', () => {
+	  const keyCode = box.getAttribute('data-key');
+	  playSound(Number(keyCode));
+	});
+  });
+  
