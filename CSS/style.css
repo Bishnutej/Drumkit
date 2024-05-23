@@ -26,8 +26,8 @@ html {
 	border-radius: 4px;
 	box-shadow: 10px 11px 16px -6px white;
 	background-color: rgba(0,0,0,0.4);
-	
-	
+	cursor: pointer;
+	transition: all 0.1s ease;
 	margin: 100px auto;
 	text-align: center;
 	line-height: 90px;
