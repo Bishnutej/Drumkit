@@ -25,7 +25,7 @@ const keySoundMap = {
   
   // Function to play sound and handle visual feedback
   function playSound(keyCode) {
-	const sound = sounds[keyCode];
+	const sound = Sounds[keyCode];
 	if (sound) {
 	  sound.currentTime = 0; // Rewind to start
 	  sound.play();
