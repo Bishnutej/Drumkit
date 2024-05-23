@@ -21,7 +21,7 @@ const keySoundMap = {
   }
   
   // Load sounds from the 'sounds' folder
-  const sounds = loadSounds('sounds', keySoundMap);
+  const sounds = loadSounds('Sounds', keySoundMap);
   
   // Function to play sound and handle visual feedback
   function playSound(keyCode) {
